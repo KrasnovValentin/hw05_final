@@ -37,4 +37,4 @@ class PostModelTest(TestCase):
         help_text = post._meta.get_field('group').help_text
         self.assertEqual(verb_name_av, 'Автор')
         self.assertEqual(verb_name_gr, 'Группа')
-        self.assertEqual(help_text, 'Группа, к которой будет относиться пост')
+        self.assertEqual(help_text, 'Выберите группу')
