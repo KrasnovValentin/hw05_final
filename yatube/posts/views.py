@@ -186,3 +186,24 @@ def profile_unfollow(request, username):
     author = User.objects.get(username=username)
     Follow.objects.filter(author=author).delete()
     return redirect('posts:follow_index')
+
+
+@login_required
+def group_create(request: HttpRequest) -> HttpResponse:
+    """Модуль отвечающий за страницу создания группы."""
+    if request.method != 'POST':
+        group_form = GroupForm()
+        return render(request, 'posts/create_post.html',
+                      {'group_form': group_form, })
+    group_form = GroupForm(
+        request.POST or None,
+        files=request.FILES or None,
+    )
+    if group_form.is_valid():
+        group = group_form.save(commit=False)
+        group.title = group_form.cleaned_data['title']
+        group.description = group_form.cleaned_data['description']
+        group_form.save()
+        # return redirect('posts:profile', post.author)
+    return render(request, 'posts/create_post.html',
+                  {'group_form': group_form, })
